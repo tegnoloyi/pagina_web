@@ -10,9 +10,18 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_id', 'name', 'description', 'material', 
-        'base_price', 'old_price', 'is_new'
+        'category_id', 'name', 'description', 'material',
+        'base_price', 'old_price', 'is_new',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'base_price' => 'decimal:2',
+            'old_price' => 'decimal:2',
+            'is_new' => 'boolean',
+        ];
+    }
 
     public function category()
     {
@@ -27,5 +36,22 @@ class Product extends Model
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function scopeSearch($query, ?string $term)
+    {
+        if (blank($term)) {
+            return $query;
+        }
+
+        return $query->where(function ($q) use ($term) {
+            $q->where('name', 'like', "%{$term}%")
+              ->orWhere('description', 'like', "%{$term}%");
+        });
+    }
+
+    public function totalStock(): int
+    {
+        return $this->variants->sum('stock');
     }
 }

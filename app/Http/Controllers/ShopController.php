@@ -30,7 +30,9 @@ class ShopController extends Controller
             $query->where('category_id', $request->category);
         }
 
-        $products = $query->paginate(12);
+        $query->search($request->input('search'));
+
+        $products = $query->latest()->paginate(12)->withQueryString();
 
         return view('shop.catalog', compact('categories', 'products'));
     }

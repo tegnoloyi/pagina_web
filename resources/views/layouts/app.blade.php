@@ -34,20 +34,46 @@
 
             <!-- Íconos de Usuario, Admin y Carrito -->
             <div class="flex items-center gap-5">
-                <a href="{{ route('admin.dashboard') }}" class="text-xs font-semibold uppercase tracking-wider bg-gray-100 px-3 py-1.5 rounded-full hover:bg-black hover:text-white transition">
-                    Panel Admin
-                </a>
+                @auth('customer')
+                    <a href="{{ route('customer.orders.index') }}" class="text-xs font-semibold uppercase tracking-wider text-gray-600 hover:text-black">
+                        Mis pedidos
+                    </a>
+                @else
+                    <a href="{{ route('customer.login') }}" class="text-xs font-semibold uppercase tracking-wider text-gray-600 hover:text-black">
+                        Iniciar sesión
+                    </a>
+                @endauth
 
-                <button class="relative p-1 text-gray-700 hover:text-black">
+                <a href="{{ route('cart.index') }}" class="relative p-1 text-gray-700 hover:text-black">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                    <span class="absolute -top-1 -right-1 bg-black text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
-                </button>
+                    @if(app(\App\Services\CartService::class)->count() > 0)
+                        <span class="absolute -top-1 -right-1 bg-black text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">{{ app(\App\Services\CartService::class)->count() }}</span>
+                    @endif
+                </a>
             </div>
         </div>
     </header>
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="flex-grow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            @if (session('status'))
+                <div class="mt-6 bg-emerald-50 text-emerald-700 text-sm font-medium px-4 py-3 rounded-xl">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="mt-6 bg-red-50 text-red-700 text-sm px-4 py-3 rounded-xl">
+                    <ul class="list-disc list-inside space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </div>
+
         @yield('content')
     </main>
 

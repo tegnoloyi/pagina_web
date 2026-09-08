@@ -55,10 +55,10 @@
                          class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                 @endif
 
-                <!-- Botón de Agregado Rápido -->
-                <button class="absolute bottom-3 right-3 bg-black text-white p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition duration-300 hover:scale-110">
+                <!-- Botón de Agregado Rápido: lleva a la ficha para elegir talla/color -->
+                <a href="{{ route('shop.show', $product->id) }}" class="absolute bottom-3 right-3 bg-black text-white p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition duration-300 hover:scale-110">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                </button>
+                </a>
             </div>
 
             <!-- Información -->

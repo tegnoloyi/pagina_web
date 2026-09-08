@@ -13,6 +13,8 @@ return new class extends Migration
         $table->string('email', 120)->unique();
         $table->string('name', 120);
         $table->string('phone', 20)->nullable();
+        $table->string('password')->nullable();
+        $table->rememberToken();
         $table->timestamps();
     });
 }
