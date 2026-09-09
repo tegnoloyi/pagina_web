@@ -7,7 +7,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
+use Laravel\Socialite\Facades\Socialite;
 
 class CustomerAuthController extends Controller
 {
@@ -31,7 +31,7 @@ class CustomerAuthController extends Controller
         // loguearse hasta que "active" su cuenta poniendo una contraseña.
         $customer = Customer::where('email', $credentials['email'])->first();
 
-        if (! $customer || ! $customer->hasAccount() || ! Hash::check($credentials['password'], $customer->password)) {
+        if (! $customer || is_null($customer->password) || ! Hash::check($credentials['password'], $customer->password)) {
             return back()
                 ->withErrors(['email' => 'Credenciales incorrectas.'])
                 ->onlyInput('email');
@@ -41,15 +41,6 @@ class CustomerAuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(route('customer.orders.index'));
-    }
-
-    public function showRegister()
-    {
-        if (Auth::guard('customer')->check()) {
-            return redirect()->route('customer.orders.index');
-        }
-
-        return view('customer.auth.register');
     }
 
     public function register(Request $request)
@@ -90,6 +81,47 @@ class CustomerAuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()->route('customer.orders.index');
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+        } catch (\Throwable $e) {
+            return redirect()->route('customer.login')
+                ->withErrors(['email' => 'No se pudo iniciar sesión con Google. Intenta de nuevo.']);
+        }
+
+        // Buscamos primero por google_id (ya vinculado antes) y si no,
+        // por correo (pudo existir como invitado o con password normal;
+        // en ese caso simplemente vinculamos la cuenta de Google).
+        $customer = Customer::where('google_id', $googleUser->getId())->first()
+            ?? Customer::where('email', $googleUser->getEmail())->first();
+
+        if ($customer) {
+            $customer->update([
+                'google_id' => $googleUser->getId(),
+                'avatar_url' => $googleUser->getAvatar(),
+                'name' => $customer->name ?: $googleUser->getName(),
+            ]);
+        } else {
+            $customer = Customer::create([
+                'name' => $googleUser->getName(),
+                'email' => $googleUser->getEmail(),
+                'google_id' => $googleUser->getId(),
+                'avatar_url' => $googleUser->getAvatar(),
+            ]);
+        }
+
+        Auth::guard('customer')->login($customer, true);
+        request()->session()->regenerate();
+
+        return redirect()->intended(route('customer.orders.index'));
     }
 
     public function logout(Request $request)

@@ -15,7 +15,7 @@ class Customer extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = ['email', 'name', 'phone', 'password'];
+    protected $fillable = ['email', 'name', 'phone', 'password', 'google_id', 'avatar_url'];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -37,6 +37,11 @@ class Customer extends Authenticatable
      */
     public function hasAccount(): bool
     {
-        return ! is_null($this->password);
+        return ! is_null($this->password) || ! is_null($this->google_id);
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new \App\Notifications\CustomerResetPasswordNotification($token));
     }
 }

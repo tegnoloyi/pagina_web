@@ -25,7 +25,7 @@ return new class extends Migration
         $table->string('shipping_zip', 15);
 
         // Pago
-        $table->string('payment_method', 20)->default('efectivo'); // efectivo | transferencia | tarjeta
+        $table->string('payment_method', 20)->default('transferencia'); // transferencia | tarjeta
         $table->boolean('is_paid')->default(false);
         $table->timestamp('paid_at')->nullable();
 

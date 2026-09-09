@@ -137,7 +137,7 @@ class CheckoutController extends Controller
                     'shipping_state' => $data['shipping_state'],
                     'shipping_zip' => $data['shipping_zip'],
                     'payment_method' => $data['payment_method'],
-                    // "tarjeta" se procesa (simulado) al instante; efectivo y
+                    // "tarjeta" se procesa (simulado) al instante; transferencia
                     // transferencia quedan pendientes de confirmación manual
                     // por el admin. Este es el punto de integración para una
                     // pasarela real (Stripe/Mercado Pago) más adelante.

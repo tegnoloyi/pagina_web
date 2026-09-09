@@ -50,11 +50,8 @@
                     <label class="flex items-center gap-3 border border-gray-200 rounded-lg px-4 py-3 text-sm cursor-pointer has-[:checked]:border-black">
                         <input type="radio" name="payment_method" value="transferencia" required> Transferencia bancaria
                     </label>
-                    <label class="flex items-center gap-3 border border-gray-200 rounded-lg px-4 py-3 text-sm cursor-pointer has-[:checked]:border-black">
-                        <input type="radio" name="payment_method" value="efectivo" required> Efectivo contra entrega
-                    </label>
                 </div>
-                <p class="text-xs text-gray-400 mt-2">Transferencia y efectivo quedan como "pendiente" hasta que el admin confirme el pago.</p>
+                <p class="text-xs text-gray-400 mt-2">Transferencia queda como "pendiente" hasta que el admin confirme el pago.</p>
             </div>
 
             @guest('customer')
