@@ -63,12 +63,12 @@
 
 <!-- TABLA DE VARIANTES E INVENTARIO SKU -->
 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+    <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
         <div>
             <h2 class="text-base font-semibold uppercase tracking-wider">Gestión de Variantes y SKUs</h2>
             <p class="text-xs text-gray-400">Inventario directo por combinación de talla y color.</p>
         </div>
-        <a href="{{ route('admin.products.index') }}" class="text-xs font-semibold uppercase tracking-wider bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
+        <a href="{{ route('admin.products.index') }}" class="inline-block text-center text-xs font-semibold uppercase tracking-wider bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
             Gestionar productos
         </a>
     </div>
