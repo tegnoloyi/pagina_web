@@ -22,12 +22,34 @@ class ShopController extends Controller
     public function catalog(Request $request)
     {
         $categories = Category::all();
-        
+
         $query = Product::with(['images', 'variants']);
 
-        // Filtrar por categoría si viene en la URL
-        if ($request->has('category') && $request->category != '') {
-            $query->where('category_id', $request->category);
+        // Compatibilidad con la navegación del rediseño Scorpio:
+        // category=nueva-coleccion = nuevas prendas (is_new)
+        // sale=true = productos con old_price definido
+        if ($request->filled('category') && $request->category !== '') {
+            $categoryRaw = $request->category;
+
+            if ($categoryRaw === 'nueva-coleccion') {
+                $query->where('is_new', true);
+            } else {
+                $category = Category::where('slug', $categoryRaw)->first();
+
+                if ($category) {
+                    $query->where('category_id', $category->id);
+                } elseif (ctype_digit((string) $categoryRaw)) {
+                    $query->where('category_id', (int) $categoryRaw);
+                }
+            }
+        }
+
+        if ($request->boolean('sale')) {
+            $query->whereNotNull('old_price');
+        }
+
+        if ($request->boolean('novedades') || $request->query('category') === 'nueva-coleccion') {
+            $query->where('is_new', true);
         }
 
         $query->search($request->input('search'));

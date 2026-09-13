@@ -125,8 +125,6 @@ class CheckoutController extends Controller
                     $customer->save();
                 }
 
-                $isCardPayment = $data['payment_method'] === 'tarjeta';
-
                 $order = Order::create([
                     'customer_id' => $customer->id,
                     'customer_name' => $data['customer_name'],
@@ -137,13 +135,9 @@ class CheckoutController extends Controller
                     'shipping_state' => $data['shipping_state'],
                     'shipping_zip' => $data['shipping_zip'],
                     'payment_method' => $data['payment_method'],
-                    // "tarjeta" se procesa (simulado) al instante; transferencia
-                    // transferencia quedan pendientes de confirmación manual
-                    // por el admin. Este es el punto de integración para una
-                    // pasarela real (Stripe/Mercado Pago) más adelante.
-                    'is_paid' => $isCardPayment,
-                    'paid_at' => $isCardPayment ? now() : null,
-                    'status' => $isCardPayment ? 'pagado' : 'pendiente',
+                    'is_paid' => false,
+                    'paid_at' => null,
+                    'status' => 'pendiente',
                     'notes' => $data['notes'] ?? null,
                     'subtotal' => $subtotal,
                     'shipping' => $shipping,
