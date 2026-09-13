@@ -51,7 +51,7 @@ Route::get('/checkout/{order}/gracias', [CheckoutController::class, 'confirmatio
 Route::prefix('account')->name('customer.')->group(function () {
     Route::middleware('guest:customer')->group(function () {
         Route::get('/login', [CustomerAuthController::class, 'showLogin'])->name('login');
-        Route::post('/login', [CustomerAuthController::class, 'login']);
+        Route::post('/login', [CustomerAuthController::class, 'login'])->name('login');
         Route::post('/register', [CustomerAuthController::class, 'register'])->name('register');
         Route::get('/google/redirect', [CustomerAuthController::class, 'redirectToGoogle'])->name('google.redirect');
         Route::get('/google/callback', [CustomerAuthController::class, 'handleGoogleCallback'])->name('google.callback');
@@ -77,7 +77,7 @@ Route::prefix('account')->name('customer.')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest:web')->group(function () {
         Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
-        Route::post('/login', [AdminAuthController::class, 'login']);
+        Route::post('/login', [AdminAuthController::class, 'login'])->name('login');
     });
 
     Route::middleware('auth:web')->group(function () {

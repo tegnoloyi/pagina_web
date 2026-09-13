@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,7 +16,10 @@ class DatabaseSeeder extends Seeder
         // catálogo se hace desde el panel admin cuando esté listo.
         User::updateOrCreate(
             ['email' => 'admin@vestir.test'],
-            ['name' => 'Admin', 'password' => 'password']
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('password'),
+            ]
         );
     }
 }

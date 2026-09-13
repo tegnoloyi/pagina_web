@@ -2,11 +2,15 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Database\Seeders\DatabaseSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      */
@@ -15,5 +19,15 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+    }
+
+    public function test_admin_seeder_hashes_the_account_password(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $user = \App\Models\User::where('email', 'admin@vestir.test')->first();
+
+        $this->assertNotNull($user);
+        $this->assertTrue(Hash::check('password', $user->password));
     }
 }
