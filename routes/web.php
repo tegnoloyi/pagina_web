@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/catalog', [ShopController::class, 'catalog'])->name('shop.catalog');
+Route::get('/novedades', [ShopController::class, 'novedades'])->name('shop.novedades');
+Route::get('/ofertas', [ShopController::class, 'ofertas'])->name('shop.ofertas');
 Route::get('/product/{id}', [ShopController::class, 'show'])->name('shop.show');
 
 /*

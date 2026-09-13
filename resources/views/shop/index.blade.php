@@ -29,7 +29,7 @@
                        class="inline-flex items-center justify-center bg-venom text-ink font-bold text-[11px] uppercase tracking-[0.22em] px-5 py-3 sm:px-8 sm:py-3.5 rounded-full shadow-sm hover:brightness-110 transition-all duration-300 w-full sm:w-auto min-w-[170px]">
                         Explorar catálogo
                     </a>
-                    <a href="{{ route('shop.catalog', ['sale' => 'true']) }}"
+                    <a href="{{ route('shop.ofertas') }}"
                        class="inline-flex items-center justify-center border border-sting text-sting font-bold text-[11px] uppercase tracking-[0.22em] px-5 py-3 sm:px-8 sm:py-3.5 rounded-full hover:bg-sting hover:text-white transition-all duration-300 w-full sm:w-auto min-w-[170px]">
                         Ver ofertas
                     </a>

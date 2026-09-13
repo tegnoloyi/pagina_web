@@ -1,0 +1,85 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+    <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+        <aside class="w-full md:w-72 flex-shrink-0">
+            <div class="rounded-2xl md:rounded-[2rem] border border-line bg-surface p-4 md:p-6 shadow-sm">
+                <span class="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.24em] text-venom">Colecciones</span>
+                <h2 class="text-lg md:text-xl font-display font-bold uppercase tracking-[-0.01em] text-bone mt-1 md:mt-3">Novedades</h2>
+
+                <ul class="flex md:flex-col gap-2 overflow-x-auto pb-2 md:pb-0 mt-4 md:mt-6 no-scrollbar -mx-2 px-2 md:mx-0 md:px-0">
+                    <li class="flex-shrink-0">
+                        <a href="{{ route('shop.novedades') }}"
+                           class="inline-block md:block px-4 py-2 text-xs md:text-sm font-medium rounded-full transition-colors whitespace-nowrap bg-venom text-ink shadow-sm">
+                            Todo nuevo
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <div class="flex-1">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-6 md:mb-8">
+                <div>
+                    <span class="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.24em] text-venom">Novedades</span>
+                    <h1 class="text-2xl md:text-4xl font-display font-bold uppercase tracking-[-0.02em] text-bone mt-1">
+                        Nueva colección
+                    </h1>
+                </div>
+                <span class="rounded-full border border-line px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-bone-dim">
+                    {{ $products->total() }} productos
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
+                @forelse($products as $product)
+                <a href="{{ route('shop.show', $product->id) }}"
+                   class="group block rounded-2xl md:rounded-[2rem] border border-line bg-surface p-2 md:p-3 shadow-sm hover:shadow-lg hover:shadow-venom/5 hover:border-venom/30 hover:-translate-y-1 transition-all duration-300">
+                    <div class="aspect-[3/4] w-full rounded-xl md:rounded-[1.5rem] overflow-hidden bg-surface-2 relative">
+                        <span class="absolute top-2 left-2 md:top-3 md:left-3 bg-venom text-ink text-[9px] md:text-[10px] font-black px-2.5 py-1 md:px-3 md:py-1.5 uppercase rounded-full z-10">
+                            Nuevo
+                        </span>
+
+                        @if($product->images->first())
+                            <img src="{{ $product->images->first()->url }}"
+                                 alt="{{ $product->name }}"
+                                 loading="lazy"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        @else
+                            <div class="w-full h-full flex items-center justify-center text-bone-dim">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="px-1 md:px-2 pt-3 md:pt-4">
+                        <h3 class="text-xs md:text-sm font-bold uppercase tracking-[0.05em] md:tracking-[0.1em] text-bone group-hover:text-venom line-clamp-1">
+                            {{ $product->name }}
+                        </h3>
+                        <div class="mt-1 md:mt-2 flex items-center gap-1.5 md:gap-2 flex-wrap">
+                            <span class="text-xs md:text-sm font-black text-bone">
+                                ${{ number_format($product->base_price, 2) }}
+                            </span>
+                            @if($product->old_price)
+                                <span class="text-[10px] md:text-xs text-bone-dim line-through">
+                                    ${{ number_format($product->old_price, 2) }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                </a>
+                @empty
+                <div class="col-span-full text-center text-bone-dim py-12 md:py-16 rounded-2xl md:rounded-[2rem] border border-dashed border-line bg-surface">
+                    <p class="text-sm md:text-base">No se encontraron nuevas prendas.</p>
+                </div>
+                @endforelse
+            </div>
+
+            <div class="mt-8 md:mt-10">
+                {{ $products->links() }}
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

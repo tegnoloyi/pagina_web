@@ -58,16 +58,16 @@
             @php
                 $isHome = request()->routeIs('shop.index') && request()->path() === '/';
                 $isCatalog = request()->routeIs('shop.catalog') && !request()->has('category') && !request()->has('sale');
-                $isNovedades = request()->routeIs('shop.catalog') && request()->query('category') === 'nueva-coleccion';
-                $isOfertas = request()->routeIs('shop.catalog') && request()->query('sale') === 'true';
+                $isNovedades = request()->routeIs('shop.novedades');
+                $isOfertas = request()->routeIs('shop.ofertas');
             @endphp
 
             <!-- Enlaces Principales (Desktop) -->
             <nav class="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-[0.18em] text-bone-dim">
                 <a href="{{ route('shop.index') }}" class="{{ $isHome ? 'text-venom py-1 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-venom' : 'hover:text-bone py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-venom hover:after:w-full after:transition-all' }}">Inicio</a>
                 <a href="{{ route('shop.catalog') }}" class="{{ $isCatalog ? 'text-venom py-1 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-venom' : 'hover:text-bone py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-venom hover:after:w-full after:transition-all' }}">Catálogo</a>
-                <a href="{{ route('shop.catalog', ['category' => 'nueva-coleccion']) }}" class="{{ $isNovedades ? 'text-venom py-1 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-venom' : 'hover:text-bone py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-venom hover:after:w-full after:transition-all' }}">Novedades</a>
-                <a href="{{ route('shop.catalog', ['sale' => 'true']) }}" class="{{ $isOfertas ? 'text-sting py-1 font-extrabold' : 'hover:text-bone py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-sting hover:after:w-full after:transition-all text-bone-dim' }}">Ofertas</a>
+                <a href="{{ route('shop.novedades') }}" class="{{ $isNovedades ? 'text-venom py-1 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-venom' : 'hover:text-bone py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-venom hover:after:w-full after:transition-all' }}">Novedades</a>
+                <a href="{{ route('shop.ofertas') }}" class="{{ $isOfertas ? 'text-sting py-1 font-extrabold' : 'hover:text-bone py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-sting hover:after:w-full after:transition-all text-bone-dim' }}">Ofertas</a>
             </nav>
 
             <!-- Buscador Integrado -->
@@ -138,8 +138,8 @@
             <div class="flex flex-col space-y-3 font-semibold uppercase text-xs tracking-widest text-bone-dim">
                 <a href="{{ route('shop.index') }}" class="py-2 border-b border-line {{ $isHome ? 'text-venom font-extrabold' : '' }}">Inicio</a>
                 <a href="{{ route('shop.catalog') }}" class="py-2 border-b border-line {{ $isCatalog ? 'text-venom font-extrabold' : '' }}">Catálogo Completo</a>
-                <a href="{{ route('shop.catalog', ['category' => 'nueva-coleccion']) }}" class="py-2 border-b border-line {{ $isNovedades ? 'text-venom font-extrabold' : '' }}">Novedades</a>
-                <a href="{{ route('shop.catalog', ['sale' => 'true']) }}" class="py-2 {{ $isOfertas ? 'text-sting font-extrabold' : 'text-bone-dim' }}">Ofertas Especiales</a>
+                <a href="{{ route('shop.novedades') }}" class="py-2 border-b border-line {{ $isNovedades ? 'text-venom font-extrabold' : '' }}">Novedades</a>
+                <a href="{{ route('shop.ofertas') }}" class="py-2 {{ $isOfertas ? 'text-sting font-extrabold' : 'text-bone-dim' }}">Ofertas Especiales</a>
             </div>
             <button
                 type="button"
@@ -246,8 +246,8 @@
                 <h4 class="text-bone font-bold uppercase tracking-[0.15em] text-[11px] mb-4">Colección</h4>
                 <ul class="space-y-3 text-[12px]">
                     <li><a href="{{ route('shop.catalog') }}" class="hover:text-venom transition">Todas las prendas</a></li>
-                    <li><a href="{{ route('shop.catalog', ['category' => 'nueva-coleccion']) }}" class="hover:text-venom transition">Nueva Colección</a></li>
-                    <li><a href="{{ route('shop.catalog', ['sale' => 'true']) }}" class="hover:text-venom transition">Descuentos</a></li>
+                    <li><a href="{{ route('shop.novedades') }}" class="hover:text-venom transition">Nueva Colección</a></li>
+                    <li><a href="{{ route('shop.ofertas') }}" class="hover:text-venom transition">Descuentos</a></li>
                 </ul>
             </div>
 

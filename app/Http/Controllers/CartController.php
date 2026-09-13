@@ -19,6 +19,7 @@ class CartController extends Controller
         return view('cart.index', [
             'lines' => $lines,
             'subtotal' => $this->cart->subtotal(),
+            'hasStockIssues' => $this->cart->hasStockIssues(),
         ]);
     }
 

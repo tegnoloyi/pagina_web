@@ -18,6 +18,30 @@ class ShopController extends Controller
         return view('shop.index', compact('categories', 'featuredProducts'));
     }
 
+    public function novedades()
+    {
+        $categories = Category::all();
+        $products = Product::with(['images', 'variants'])
+            ->where('is_new', true)
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
+
+        return view('shop.novedades', compact('categories', 'products'));
+    }
+
+    public function ofertas()
+    {
+        $categories = Category::all();
+        $products = Product::with(['images', 'variants'])
+            ->whereNotNull('old_price')
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
+
+        return view('shop.ofertas', compact('categories', 'products'));
+    }
+
     // Vista Catálogo con filtros básicos
     public function catalog(Request $request)
     {
@@ -25,31 +49,16 @@ class ShopController extends Controller
 
         $query = Product::with(['images', 'variants']);
 
-        // Compatibilidad con la navegación del rediseño Scorpio:
-        // category=nueva-coleccion = nuevas prendas (is_new)
-        // sale=true = productos con old_price definido
         if ($request->filled('category') && $request->category !== '') {
             $categoryRaw = $request->category;
 
-            if ($categoryRaw === 'nueva-coleccion') {
-                $query->where('is_new', true);
-            } else {
-                $category = Category::where('slug', $categoryRaw)->first();
+            $category = Category::where('slug', $categoryRaw)->first();
 
-                if ($category) {
-                    $query->where('category_id', $category->id);
-                } elseif (ctype_digit((string) $categoryRaw)) {
-                    $query->where('category_id', (int) $categoryRaw);
-                }
+            if ($category) {
+                $query->where('category_id', $category->id);
+            } elseif (ctype_digit((string) $categoryRaw)) {
+                $query->where('category_id', (int) $categoryRaw);
             }
-        }
-
-        if ($request->boolean('sale')) {
-            $query->whereNotNull('old_price');
-        }
-
-        if ($request->boolean('novedades') || $request->query('category') === 'nueva-coleccion') {
-            $query->where('is_new', true);
         }
 
         $query->search($request->input('search'));

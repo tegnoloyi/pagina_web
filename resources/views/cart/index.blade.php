@@ -99,13 +99,10 @@
                             <span class="font-display text-3xl font-black text-venom">${{ number_format($subtotal, 2) }}</span>
                         </div>
                     </div>
-                    @php
-                        $hasUnavailable = $lines->contains(fn($line) => ! $line['available']);
-                    @endphp
-                    <a href="{{ route('checkout.show') }}" class="mt-6 w-full inline-flex items-center justify-center rounded-full bg-venom text-ink px-5 py-3 font-black uppercase tracking-[0.18em] text-[11px] transition hover:brightness-110 {{ $hasUnavailable ? 'pointer-events-none opacity-50' : '' }}">
+                    <a href="{{ route('checkout.show') }}" class="mt-6 w-full inline-flex items-center justify-center rounded-full bg-venom text-ink px-5 py-3 font-black uppercase tracking-[0.18em] text-[11px] transition hover:brightness-110 {{ $hasStockIssues ? 'pointer-events-none opacity-50' : '' }}">
                         Continuar al checkout
                     </a>
-                    @if($hasUnavailable)
+                    @if($hasStockIssues)
                         <p class="text-sting text-[11px] font-bold mt-3 uppercase tracking-[0.12em]">Corrige el stock para seguir</p>
                     @endif
                 </div>

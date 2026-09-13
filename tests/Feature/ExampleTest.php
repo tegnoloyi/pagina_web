@@ -33,7 +33,7 @@ class ExampleTest extends TestCase
         $this->assertTrue(Hash::check('password', $user->password));
     }
 
-    public function test_catalog_filters_sale_and_novedades_queries(): void
+    public function test_catalog_has_dedicated_novedades_and_ofertas_sections(): void
     {
         $category = Category::create([
             'name' => 'Test category',
@@ -61,16 +61,18 @@ class ExampleTest extends TestCase
             'is_new' => true,
         ]);
 
-        $saleResponse = $this->get('/catalog?sale=true');
-        $saleResponse->assertOk();
-        $saleResponse->assertViewHas('products', function ($products) {
-            return $products->total() === 1 && $products->first()->name === 'Oferta visible';
-        });
-
-        $novedadesResponse = $this->get('/catalog?category=nueva-coleccion');
+        $novedadesResponse = $this->get('/novedades');
         $novedadesResponse->assertOk();
+        $novedadesResponse->assertViewIs('shop.novedades');
         $novedadesResponse->assertViewHas('products', function ($products) {
             return $products->total() === 1 && $products->first()->name === 'Nueva visible';
+        });
+
+        $ofertasResponse = $this->get('/ofertas');
+        $ofertasResponse->assertOk();
+        $ofertasResponse->assertViewIs('shop.ofertas');
+        $ofertasResponse->assertViewHas('products', function ($products) {
+            return $products->total() === 1 && $products->first()->name === 'Oferta visible';
         });
     }
 }
