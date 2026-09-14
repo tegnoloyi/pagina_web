@@ -26,28 +26,31 @@
     --color-line: var(--c-line);
 }
 
-/* Modo claro (default) */
+/* Modo claro (default)
+   Paleta: azul/negro elegante estilo streetwear —
+   negro azulado #0B0F1A, azul cobalto #1E40AF, azul cielo vivo #0EA5E9,
+   blanco frío #F4F6FA, pizarra #64748B, gris carbón #1F2937 */
 :root {
-    --c-ink: #f7f5f1;
-    --c-surface: #ffffff;
-    --c-surface-2: #ece9e2;
-    --c-bone: #17140f;
-    --c-bone-dim: #74695c;
-    --c-venom: #4c7a05;
-    --c-sting: #c8371f;
-    --c-line: #e2ddd2;
+    --c-ink: #f4f6fa;       /* blanco frío — fondo de página */
+    --c-surface: #ffffff;   /* blanco puro — tarjetas y paneles elevados */
+    --c-surface-2: #e7ecf3; /* gris azulado claro — paneles secundarios / franjas alternas */
+    --c-bone: #0b0f1a;      /* negro azulado — texto principal */
+    --c-bone-dim: #64748b;  /* pizarra — texto secundario/atenuado */
+    --c-venom: #1e40af;     /* azul cobalto — acento principal (botones, precios, links) */
+    --c-sting: #0ea5e9;     /* azul cielo vivo — acento secundario (etiquetas, ofertas, alertas) */
+    --c-line: #dce3ec;      /* gris azulado claro — bordes y divisores */
 }
 
 /* Modo oscuro */
 .dark {
-    --c-ink: #121110;
-    --c-surface: #1c1a17;
-    --c-surface-2: #262319;
-    --c-bone: #f2efea;
-    --c-bone-dim: #8f8a80;
-    --c-venom: #bfff3c;
-    --c-sting: #e8442a;
-    --c-line: #2a2722;
+    --c-ink: #05070c;       /* negro azulado casi puro — fondo de página */
+    --c-surface: #0b0f1a;   /* negro azulado — tarjetas y paneles elevados */
+    --c-surface-2: #131826; /* azul marino oscuro — paneles secundarios */
+    --c-bone: #f4f6fa;      /* blanco frío — texto principal */
+    --c-bone-dim: #94a3b8;  /* pizarra clara — texto secundario/atenuado */
+    --c-venom: #3b82f6;     /* azul brillante — acento principal, buen contraste sobre fondo oscuro */
+    --c-sting: #38bdf8;     /* azul cielo — acento secundario (etiquetas, ofertas, alertas) */
+    --c-line: #1f2937;      /* gris carbón — bordes y divisores */
 }
 
 [x-cloak] {

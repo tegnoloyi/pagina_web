@@ -10,14 +10,14 @@
     <style>body { font-family: 'Inter', sans-serif; }</style>
     @vite(['resources/css/app.css'])
 </head>
-<body class="bg-[#F9FAFB] text-[#111827] antialiased">
+<body class="bg-[#F4F6FA] text-[#0B0F1A] antialiased">
     <div class="flex min-h-screen">
         <!-- OVERLAY (solo móvil, detrás del sidebar cuando está abierto) -->
         <div id="sidebar_overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
 
         <!-- SIDEBAR: off-canvas en móvil, fija en lg+ -->
         <aside id="sidebar"
-               class="w-64 bg-black text-white flex-shrink-0 flex flex-col fixed inset-y-0 left-0 z-40 -translate-x-full transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:w-60">
+               class="w-64 bg-[#0B0F1A] text-white flex-shrink-0 flex flex-col fixed inset-y-0 left-0 z-40 -translate-x-full transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:w-60">
             <div class="h-16 flex items-center justify-between px-6 text-lg font-bold tracking-widest uppercase border-b border-line">
                 <span>SCORPIO <span class="text-[10px] font-normal tracking-normal normal-case text-gray-400 ml-1">admin</span></span>
                 <button id="sidebar_close" class="lg:hidden text-gray-400 hover:text-white" aria-label="Cerrar menú">
@@ -42,7 +42,7 @@
         <!-- CONTENIDO -->
         <div class="flex-1 min-w-0">
             <!-- BARRA SUPERIOR MÓVIL -->
-            <div class="lg:hidden sticky top-0 z-20 h-14 bg-black text-white flex items-center px-4 gap-3">
+            <div class="lg:hidden sticky top-0 z-20 h-14 bg-[#0B0F1A] text-white flex items-center px-4 gap-3">
                 <button id="sidebar_open" class="text-white" aria-label="Abrir menú">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
