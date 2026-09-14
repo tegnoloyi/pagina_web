@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full scroll-smooth dark">
+<html lang="es" class="h-full scroll-smooth dark overflow-x-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +30,7 @@
     <!-- CSS/JS compilados por Vite (Tailwind 4) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-ink text-bone antialiased flex flex-col min-h-full font-sans selection:bg-venom selection:text-ink" x-data="{ mobileMenuOpen: false }">
+<body class="bg-ink text-bone antialiased flex flex-col min-h-full w-full max-w-full overflow-x-hidden font-sans selection:bg-venom selection:text-ink" x-data="{ mobileMenuOpen: false }">
 
     <!-- BANNER PROMOCIONAL -->
     <div class="bg-surface text-bone text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase py-2.5 px-4 text-center border-b border-line">
@@ -129,29 +129,87 @@
             </div>
         </div>
 
+        <!-- Fondo oscuro al abrir el menú móvil -->
+        <div x-show="mobileMenuOpen" x-cloak x-transition.opacity @click="mobileMenuOpen = false"
+             class="lg:hidden fixed inset-0 top-0 bg-ink/70 backdrop-blur-sm z-30"></div>
+
         <!-- Menú Móvil Desplegable -->
-        <div x-show="mobileMenuOpen" x-cloak x-transition class="lg:hidden bg-ink border-b border-line px-6 pt-3 pb-8 space-y-4">
-            <form action="{{ route('shop.catalog') }}" method="GET" class="w-full relative my-2">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar productos..." class="w-full bg-surface text-xs text-bone placeholder-bone-dim rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:ring-1 focus:ring-venom">
-                <svg class="w-4 h-4 text-bone-dim absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <div x-show="mobileMenuOpen" x-cloak
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-2"
+             class="lg:hidden absolute left-0 right-0 top-full bg-surface border-b border-line rounded-b-3xl shadow-2xl z-30 px-5 pt-5 pb-6 space-y-5 max-h-[calc(100vh-5rem)] overflow-y-auto">
+
+            <!-- Buscador -->
+            <form action="{{ route('shop.catalog') }}" method="GET" class="w-full relative">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar productos..."
+                    class="w-full bg-surface-2 text-xs text-bone placeholder-bone-dim rounded-2xl py-3.5 pl-11 pr-4 focus:outline-none focus:ring-1 focus:ring-venom">
+                <svg class="w-4 h-4 text-bone-dim absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             </form>
-            <div class="flex flex-col space-y-3 font-semibold uppercase text-xs tracking-widest text-bone-dim">
-                <a href="{{ route('shop.index') }}" class="py-2 border-b border-line {{ $isHome ? 'text-venom font-extrabold' : '' }}">Inicio</a>
-                <a href="{{ route('shop.catalog') }}" class="py-2 border-b border-line {{ $isCatalog ? 'text-venom font-extrabold' : '' }}">Catálogo Completo</a>
-                <a href="{{ route('shop.novedades') }}" class="py-2 border-b border-line {{ $isNovedades ? 'text-venom font-extrabold' : '' }}">Novedades</a>
-                <a href="{{ route('shop.ofertas') }}" class="py-2 {{ $isOfertas ? 'text-sting font-extrabold' : 'text-bone-dim' }}">Ofertas Especiales</a>
+
+            <!-- Cuenta -->
+            @auth('customer')
+                <div class="flex items-center gap-3 bg-surface-2 rounded-2xl p-3.5">
+                    <div class="w-10 h-10 rounded-full bg-venom/15 text-venom flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <a href="{{ route('customer.orders.index') }}" class="block text-xs font-bold uppercase tracking-wider text-bone">Mis Pedidos</a>
+                        <span class="block text-[10px] text-bone-dim mt-0.5">Ver historial de compras</span>
+                    </div>
+                    <form method="POST" action="{{ route('customer.logout') }}">
+                        @csrf
+                        <button type="submit" class="text-[10px] font-bold uppercase tracking-wider text-sting px-2 py-1">Salir</button>
+                    </form>
+                </div>
+            @else
+                <a href="{{ route('customer.login') }}"
+                   class="flex items-center justify-center gap-2 w-full bg-venom text-ink font-bold text-xs uppercase tracking-widest py-3.5 rounded-2xl">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
+                    Iniciar Sesión
+                </a>
+            @endauth
+
+            <!-- Enlaces Principales -->
+            <div class="flex flex-col gap-1 text-xs font-bold uppercase tracking-widest">
+                <a href="{{ route('shop.index') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-colors {{ $isHome ? 'bg-venom/10 text-venom' : 'text-bone-dim hover:bg-surface-2 hover:text-bone' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    Inicio
+                </a>
+                <a href="{{ route('shop.catalog') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-colors {{ $isCatalog ? 'bg-venom/10 text-venom' : 'text-bone-dim hover:bg-surface-2 hover:text-bone' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    Catálogo Completo
+                </a>
+                <a href="{{ route('shop.novedades') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-colors {{ $isNovedades ? 'bg-venom/10 text-venom' : 'text-bone-dim hover:bg-surface-2 hover:text-bone' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                    Novedades
+                </a>
+                <a href="{{ route('shop.ofertas') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-colors {{ $isOfertas ? 'bg-sting/10 text-sting' : 'text-bone-dim hover:bg-surface-2 hover:text-bone' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5.586a1 1 0 01.707.293l7.414 7.414a1 1 0 010 1.414l-7.586 7.586a1 1 0 01-1.414 0L4.293 12.293A1 1 0 014 11.586V6a3 3 0 013-3z"/></svg>
+                    Ofertas Especiales
+                </a>
             </div>
+
+            <!-- Switch modo claro/oscuro -->
             <button
                 type="button"
                 @click="
                     document.documentElement.classList.toggle('dark');
                     localStorage.setItem('scorpio-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
                 "
-                class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-bone-dim pt-1">
-                <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                <svg class="w-4 h-4 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                <span class="dark:hidden">Modo claro</span>
-                <span class="hidden dark:inline">Modo oscuro</span>
+                class="w-full flex items-center justify-between gap-2 bg-surface-2 rounded-2xl px-4 py-3.5">
+                <span class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-bone">
+                    <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <svg class="w-4 h-4 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    <span class="dark:hidden">Modo claro</span>
+                    <span class="hidden dark:inline">Modo oscuro</span>
+                </span>
+                <span class="relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full bg-venom/20 dark:bg-venom transition-colors">
+                    <span class="inline-block h-[18px] w-[18px] transform rounded-full bg-venom dark:bg-ink shadow transition-transform translate-x-1 dark:translate-x-[22px]"></span>
+                </span>
             </button>
         </div>
     </header>
