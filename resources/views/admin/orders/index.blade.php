@@ -16,7 +16,8 @@
 </form>
 
 <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-    <table class="w-full text-left text-sm">
+    <div class="overflow-x-auto">
+    <table class="w-full text-left text-sm min-w-[760px]">
         <thead class="bg-gray-50 uppercase text-gray-400 text-xs font-semibold border-b border-gray-100">
             <tr>
                 <th class="px-6 py-3">#</th>
@@ -55,6 +56,7 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 </div>
 
 <div class="mt-6">{{ $orders->links() }}</div>
