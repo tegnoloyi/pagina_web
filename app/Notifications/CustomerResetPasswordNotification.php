@@ -32,7 +32,7 @@ class CustomerResetPasswordNotification extends Notification
         ]);
 
         return (new MailMessage)
-            ->subject('Recupera tu contraseña — VESTIR')
+            ->subject('Recupera tu contraseña — ' . config('app.name'))
             ->line('Recibimos una solicitud para restablecer tu contraseña.')
             ->action('Restablecer contraseña', $url)
             ->line('Este enlace expira en 60 minutos.')

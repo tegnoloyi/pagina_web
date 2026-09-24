@@ -234,7 +234,8 @@
     </div>
 
     <div class="border-t border-line py-6 text-center text-bone-dim text-[11px] uppercase tracking-widest">
-        &copy; {{ date('Y') }} Scorpio Inc. Todos los derechos reservados.
+        &copy; {{ date('Y') }} {{ config('app.name') }} Inc. Todos los derechos reservados.
     </div>
+
 </footer>
 @endsection

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scorpio — Ropa urbana y de entrenamiento para hombre</title>
+    <title>{{ config('app.name') }} — Ropa urbana y de entrenamiento para hombre</title>
 
     <!-- Tema claro/oscuro: se aplica ANTES de pintar la página para que no haya parpadeo
          (un instante en oscuro y luego brinca a claro, o viceversa). Por defecto es oscuro
          si el visitante nunca ha tocado el switch. -->
     <script>
         (function () {
-            var saved = localStorage.getItem('scorpio-theme');
+            var saved = localStorage.getItem('escorpion-theme');
             if (saved === 'light') {
                 document.documentElement.classList.remove('dark');
             } else {
@@ -88,7 +88,7 @@
                     type="button"
                     @click="
                         document.documentElement.classList.toggle('dark');
-                        localStorage.setItem('scorpio-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+                        localStorage.setItem('escorpion-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
                     "
                     class="p-2.5 rounded-full bg-surface hover:bg-surface-2 text-bone transition-all"
                     aria-label="Cambiar entre modo claro y oscuro">
@@ -198,7 +198,7 @@
                 type="button"
                 @click="
                     document.documentElement.classList.toggle('dark');
-                    localStorage.setItem('scorpio-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+                    localStorage.setItem('escorpion-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
                 "
                 class="w-full flex items-center justify-between gap-2 bg-surface-2 rounded-2xl px-4 py-3.5">
                 <span class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-bone">
@@ -268,10 +268,11 @@
 
         @php
             // Evaluación limpia para evitar exponer URLs locales (http://127.0.0.1...)
+            $appName = config('app.name');
             if (request()->routeIs('customer.*')) {
-                $mensajeWa = 'Hola, necesito ayuda con mi cuenta o información sobre mis pedidos en Scorpion.';
+                $mensajeWa = 'Hola, necesito ayuda con mi cuenta o información sobre mis pedidos en ' . $appName . '.';
             } else {
-                $mensajeWa = 'Hola, me gustaría recibir atención personalizada sobre los productos de Scorpion.';
+                $mensajeWa = 'Hola, me gustaría recibir atención personalizada sobre los productos de ' . $appName . '.';
             }
         @endphp
 

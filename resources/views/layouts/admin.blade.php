@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin — Scorpio</title>
+    <title>Admin — {{ config('app.name') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
         <aside id="sidebar"
                class="w-64 bg-[#0B0F1A] text-white flex-shrink-0 flex flex-col fixed inset-y-0 left-0 z-40 -translate-x-full transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:w-60">
             <div class="h-16 flex items-center justify-between px-6 text-lg font-bold tracking-widest uppercase border-b border-line">
-                <span>SCORPIO <span class="text-[10px] font-normal tracking-normal normal-case text-gray-400 ml-1">admin</span></span>
+                <span>{{ strtoupper(config('app.name')) }} <span class="text-[10px] font-normal tracking-normal normal-case text-gray-400 ml-1">admin</span></span>
                 <button id="sidebar_close" class="lg:hidden text-gray-400 hover:text-white" aria-label="Cerrar menú">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
@@ -46,7 +46,7 @@
                 <button id="sidebar_open" class="text-white" aria-label="Abrir menú">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
-                <span class="text-sm font-bold tracking-widest uppercase">SCORPIO <span class="text-[10px] font-normal tracking-normal normal-case text-gray-400">admin</span></span>
+                <span class="text-sm font-bold tracking-widest uppercase">{{ strtoupper(config('app.name')) }} <span class="text-[10px] font-normal tracking-normal normal-case text-gray-400">admin</span></span>
             </div>
 
             <main class="p-4 sm:p-6 lg:p-8">

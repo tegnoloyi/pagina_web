@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login — Scorpio</title>
+    <title>Admin Login — {{ config('app.name') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
 </head>
 <body class="bg-ink text-bone min-h-screen flex items-center justify-center">
     <div class="w-full max-w-sm p-8">
-        <h1 class="text-xl font-bold uppercase tracking-widest text-center mb-8">SCORPIO <span class="text-bone-dim font-normal">admin</span></h1>
+        <h1 class="text-xl font-bold uppercase tracking-widest text-center mb-8">{{ strtoupper(config('app.name')) }} <span class="text-bone-dim font-normal">admin</span></h1>
 
         @if ($errors->any())
             <div class="mb-6 bg-sting/10 text-sting text-sm px-4 py-3 rounded-xl">
