@@ -237,5 +237,12 @@
         &copy; {{ date('Y') }} {{ config('app.name') }} Inc. Todos los derechos reservados.
     </div>
 
+    <div class="border-t border-line py-4 text-center">
+        @php
+            $adminRoute = auth('web')->check() ? route('admin.dashboard') : route('admin.login');
+        @endphp
+        <a href="{{ $adminRoute }}" class="text-[10px] uppercase tracking-[0.2em] text-bone-dim hover:text-venom transition-colors">Admin</a>
+    </div>
+
 </footer>
 @endsection
