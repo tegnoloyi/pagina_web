@@ -33,8 +33,19 @@ class CartController extends Controller
         $variant = ProductVariant::findOrFail($data['variant_id']);
         $qty = $data['qty'] ?? 1;
 
-        if ($variant->stock < $qty) {
-            return back()->withErrors(['qty' => 'No hay suficiente stock disponible para esa cantidad.']);
+        // Se compara contra lo que YA hay en el carrito + lo nuevo,
+        // no solo contra la cantidad nueva.
+        $qtyAlreadyInCart = $this->cart->quantityFor($variant->id);
+        $totalRequested = $qtyAlreadyInCart + $qty;
+
+        if ($variant->stock < $totalRequested) {
+            $disponible = max(0, $variant->stock - $qtyAlreadyInCart);
+
+            return back()->withErrors([
+                'qty' => $disponible > 0
+                    ? "Solo puedes agregar {$disponible} más de este producto (ya tienes {$qtyAlreadyInCart} en tu carrito)."
+                    : 'Ya tienes en tu carrito todo el stock disponible de este producto.',
+            ]);
         }
 
         $this->cart->add($variant->id, $qty);

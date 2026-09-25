@@ -68,6 +68,15 @@ class CartService
     }
 
     /**
+     * Cuánta cantidad de esta variante ya está en el carrito.
+     * Usado para validar stock ANTES de sumar más al agregar.
+     */
+    public function quantityFor(int $variantId): int
+    {
+        return $this->raw()[$variantId] ?? 0;
+    }
+
+    /**
      * Devuelve las líneas del carrito con producto/variante ya cargados,
      * el precio vigente y el subtotal por línea. Si una variante fue
      * eliminada o dejó de tener stock suficiente, se marca en la línea
