@@ -56,7 +56,7 @@ La zona administrativa está protegida con el guard web y se accede en:
 
 Credenciales por defecto en desarrollo (desde .env):
 
-- Email: `ADMIN_SEED_EMAIL`
+- Email por defecto: `admin@vestir.test` (o customízalo con `ADMIN_SEED_EMAIL`)
 - Contraseña: `ADMIN_SEED_PASSWORD`
 
 > El login del admin usa el mismo flujo de autenticación con throttling que ya viene configurado.

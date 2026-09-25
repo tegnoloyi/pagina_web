@@ -39,6 +39,10 @@
                 <p class="text-sm text-gray-600 mb-6">{{ $product->description }}</p>
             @endif
 
+            <div class="mb-6 rounded-xl border border-venom/30 bg-venom/5 px-4 py-3 text-sm text-venom">
+                Entrega estimada: 3 a 5 días hábiles.
+            </div>
+
             @if($product->material)
                 <p class="text-xs text-gray-400 mb-6">Material: {{ $product->material }}</p>
             @endif

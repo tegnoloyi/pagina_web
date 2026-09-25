@@ -13,7 +13,7 @@ class Order extends Model
         'pendiente', 'pagado', 'procesando', 'enviado', 'entregado', 'cancelado',
     ];
 
-    public const PAYMENT_METHODS = ['transferencia', 'tarjeta'];
+    public const PAYMENT_METHODS = ['transferencia', 'tarjeta', 'contra_entrega'];
 
     protected $fillable = [
         'customer_id',

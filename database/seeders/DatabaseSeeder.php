@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         // quieres una contraseña conocida); si no está definida, se genera
         // una aleatoria y se imprime una sola vez en consola para que el
         // admin la cambie de inmediato desde el panel.
-        $email = env('ADMIN_SEED_EMAIL', 'admin@escorpion.test');
+        $email = env('ADMIN_SEED_EMAIL', 'admin@vestir.test');
         $password = env('ADMIN_SEED_PASSWORD');
         $generated = false;
 

@@ -1,24 +1,24 @@
 @extends('layouts.admin')
 
 @section('content')
-<h1 class="text-2xl font-bold uppercase tracking-wider mb-8">Pedidos</h1>
+<h1 class="mb-8 text-2xl font-bold uppercase tracking-wider">Pedidos</h1>
 
-<form method="GET" class="flex gap-3 mb-6">
+<form method="GET" class="mb-6 flex flex-wrap gap-3">
     <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar por # o cliente..."
-           class="border border-gray-200 rounded-lg px-4 py-2 text-sm w-64">
-    <select name="status" class="border border-gray-200 rounded-lg px-4 py-2 text-sm">
+           class="w-64 rounded-lg border border-[var(--c-line)] bg-[var(--c-surface)] px-4 py-2 text-sm text-[var(--c-bone)] placeholder:text-[var(--c-bone-dim)]">
+    <select name="status" class="rounded-lg border border-[var(--c-line)] bg-[var(--c-surface)] px-4 py-2 text-sm text-[var(--c-bone)]">
         <option value="">Todos los estatus</option>
         @foreach($statuses as $status)
             <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>{{ ucfirst($status) }}</option>
         @endforeach
     </select>
-    <button class="text-xs font-semibold uppercase tracking-wider bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200">Filtrar</button>
+    <button class="rounded-lg bg-[var(--c-surface-2)] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[var(--c-bone)] hover:opacity-90">Filtrar</button>
 </form>
 
-<div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+<div class="overflow-hidden rounded-2xl border border-[var(--c-line)] bg-[var(--c-surface)]">
     <div class="overflow-x-auto">
-    <table class="w-full text-left text-sm min-w-[760px]">
-        <thead class="bg-gray-50 uppercase text-gray-400 text-xs font-semibold border-b border-gray-100">
+    <table class="w-full min-w-[760px] text-left text-sm">
+        <thead class="border-b border-[var(--c-line)] bg-[var(--c-surface-2)] text-xs font-semibold uppercase text-[var(--c-bone-dim)]">
             <tr>
                 <th class="px-6 py-3">#</th>
                 <th class="px-6 py-3">Cliente</th>
@@ -29,35 +29,35 @@
                 <th class="px-6 py-3 text-right">Acciones</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100">
+        <tbody class="divide-y divide-[var(--c-line)]">
             @forelse($orders as $order)
-            <tr class="hover:bg-gray-50/50">
-                <td class="px-6 py-3 font-mono text-xs text-gray-500">#{{ $order->id }}</td>
+            <tr class="hover:bg-[var(--c-surface-2)]/80">
+                <td class="px-6 py-3 font-mono text-xs text-[var(--c-bone-dim)]">#{{ $order->id }}</td>
                 <td class="px-6 py-3">
-                    <p class="font-medium">{{ $order->customer_name }}</p>
-                    <p class="text-xs text-gray-400">{{ $order->customer_email }}</p>
+                    <p class="font-medium text-[var(--c-bone)]">{{ $order->customer_name }}</p>
+                    <p class="text-xs text-[var(--c-bone-dim)]">{{ $order->customer_email }}</p>
                 </td>
-                <td class="px-6 py-3 text-gray-500 text-xs">{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                <td class="px-6 py-3 text-xs text-[var(--c-bone-dim)]">{{ $order->created_at->format('d/m/Y H:i') }}</td>
                 <td class="px-6 py-3 text-xs">
-                    <span class="px-2 py-1 rounded-full {{ $order->is_paid ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700' }}">
+                    <span class="rounded-full px-2 py-1 {{ $order->is_paid ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300' }}">
                         {{ $order->payment_method }} {{ $order->is_paid ? '· pagado' : '· pendiente' }}
                     </span>
                 </td>
                 <td class="px-6 py-3">
-                    <span class="text-xs font-semibold uppercase px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">{{ $order->status }}</span>
+                    <span class="rounded-full bg-[var(--c-surface-2)] px-2.5 py-1 text-xs font-semibold uppercase text-[var(--c-bone)]">{{ $order->status }}</span>
                 </td>
-                <td class="px-6 py-3 font-semibold">${{ number_format($order->total, 2) }}</td>
+                <td class="px-6 py-3 font-semibold text-[var(--c-bone)]">${{ number_format($order->total, 2) }}</td>
                 <td class="px-6 py-3 text-right">
-                    <a href="{{ route('admin.orders.show', $order) }}" class="text-xs font-semibold uppercase text-gray-600 hover:text-black">Ver</a>
+                    <a href="{{ route('admin.orders.show', $order) }}" class="text-xs font-semibold uppercase text-[var(--c-bone-dim)] hover:text-[var(--c-bone)]">Ver</a>
                 </td>
             </tr>
             @empty
-            <tr><td colspan="7" class="px-6 py-8 text-center text-gray-400">No hay pedidos todavía.</td></tr>
+            <tr><td colspan="7" class="px-6 py-8 text-center text-[var(--c-bone-dim)]">No hay pedidos todavía.</td></tr>
             @endforelse
         </tbody>
     </table>
     </div>
 </div>
 
-<div class="mt-6">{{ $orders->links() }}</div>
+<div class="mt-6 text-[var(--c-bone)]">{{ $orders->links() }}</div>
 @endsection

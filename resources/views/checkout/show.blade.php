@@ -48,10 +48,22 @@
                         <input type="radio" name="payment_method" value="tarjeta" checked required> Tarjeta (simulado)
                     </label>
                     <label class="flex items-center gap-3 border border-gray-200 rounded-lg px-4 py-3 text-sm cursor-pointer has-[:checked]:border-black">
-                        <input type="radio" name="payment_method" value="transferencia" required> Transferencia bancaria
+                        <input type="radio" name="payment_method" value="transferencia" required> Transferencia bancaria / SPEI
+                    </label>
+                    <label class="flex items-center gap-3 border border-gray-200 rounded-lg px-4 py-3 text-sm cursor-pointer has-[:checked]:border-black">
+                        <input type="radio" name="payment_method" value="contra_entrega" required> Pagar al recibir / mandar dinero
                     </label>
                 </div>
-                <p class="text-xs text-gray-400 mt-2">Transferencia queda como "pendiente" hasta que el admin confirme el pago.</p>
+                <p class="text-xs text-gray-400 mt-2">Tu pedido llega en 3 a 5 días hábiles. Si pagas por transferencia, se aplica descuento y el admin confirma el pago.</p>
+            </div>
+
+            <div>
+                <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">Cupón y beneficios</h2>
+                <div class="space-y-3 rounded-xl border border-gray-200 bg-gray-50 p-4">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500">Código de cupón</label>
+                    <input type="text" name="coupon_code" value="{{ old('coupon_code') }}" placeholder="SCORPIO10, VIP15, AMIGO5" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm">
+                    <p class="text-xs text-gray-500">Clientes frecuentes pueden recibir descuento por compras repetidas. Si tu compra es de más de $2,000, se aplica beneficio adicional.</p>
+                </div>
             </div>
 
             @guest('customer')
@@ -97,9 +109,15 @@
                     <span>Envío</span>
                     <span>${{ number_format($shippingCost, 2) }}</span>
                 </div>
+                @if($pricing['discount'] > 0)
+                    <div class="flex justify-between text-sm text-emerald-600">
+                        <span>Descuento ({{ $pricing['reason'] }})</span>
+                        <span>-${{ number_format($pricing['discount'], 2) }}</span>
+                    </div>
+                @endif
                 <div class="flex justify-between text-base font-bold pt-2">
                     <span>Total</span>
-                    <span>${{ number_format($subtotal + $shippingCost, 2) }}</span>
+                    <span>${{ number_format(max(0, $subtotal + $shippingCost - $pricing['discount']), 2) }}</span>
                 </div>
             </div>
         </div>

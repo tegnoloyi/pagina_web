@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductVariant;
 use App\Services\CartService;
+use App\Services\CheckoutPricing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,12 +26,15 @@ class CheckoutController extends Controller
         }
 
         $customer = Auth::guard('customer')->user();
+        $subtotal = $this->cart->subtotal();
+        $pricing = CheckoutPricing::calculate($subtotal, $customer, null, 'transferencia');
 
         return view('checkout.show', [
             'lines' => $this->cart->lines(),
-            'subtotal' => $this->cart->subtotal(),
+            'subtotal' => $subtotal,
             'shippingCost' => (float) config('shop.shipping_cost'),
             'customer' => $customer,
+            'pricing' => $pricing,
         ]);
     }
 
@@ -49,6 +53,7 @@ class CheckoutController extends Controller
             'shipping_state' => ['required', 'string', 'max:100'],
             'shipping_zip' => ['required', 'string', 'max:15'],
             'payment_method' => ['required', 'in:' . implode(',', Order::PAYMENT_METHODS)],
+            'coupon_code' => ['nullable', 'string', 'max:20'],
             'notes' => ['nullable', 'string', 'max:1000'],
             // Checkout de invitado con opción de crear cuenta en el mismo paso
             'create_account' => ['nullable', 'boolean'],
@@ -99,7 +104,9 @@ class CheckoutController extends Controller
 
                 $subtotal = round($subtotal, 2);
                 $shipping = (float) config('shop.shipping_cost');
-                $total = round($subtotal + $shipping, 2);
+                $pricing = CheckoutPricing::calculate($subtotal, $authCustomer, $data['coupon_code'] ?? null, $data['payment_method']);
+                $discount = $pricing['discount'];
+                $total = round(max(0, $subtotal + $shipping - $discount), 2);
 
                 // Cliente: si está logueado usamos su cuenta; si no, buscamos
                 // por correo (pudo haber comprado antes como invitado) o
@@ -138,7 +145,7 @@ class CheckoutController extends Controller
                     'is_paid' => false,
                     'paid_at' => null,
                     'status' => 'pendiente',
-                    'notes' => $data['notes'] ?? null,
+                    'notes' => ($data['notes'] ?? null) . ($data['coupon_code'] ? "\nCupón: {$data['coupon_code']}" : ''),
                     'subtotal' => $subtotal,
                     'shipping' => $shipping,
                     'total' => $total,

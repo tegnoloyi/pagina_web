@@ -39,6 +39,10 @@ class CartController extends Controller
 
         $this->cart->add($variant->id, $qty);
 
+        if ($request->boolean('checkout')) {
+            return redirect()->route('checkout.show')->with('status', 'Producto agregado al carrito. Sigue con tu compra.');
+        }
+
         return back()->with('status', 'Producto agregado al carrito.');
     }
 

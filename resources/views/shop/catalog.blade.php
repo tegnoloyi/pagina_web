@@ -49,44 +49,67 @@
             <!-- Listado de Productos -->
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
                 @forelse($products as $product)
-                <a href="{{ route('shop.show', $product->id) }}"
-                   class="group block rounded-2xl md:rounded-[2rem] border border-line bg-surface p-2 md:p-3 shadow-sm hover:shadow-lg hover:shadow-venom/5 hover:border-venom/30 hover:-translate-y-1 transition-all duration-300">
+                @php
+                    $defaultVariant = $product->variants->first();
+                @endphp
+                <div class="group rounded-2xl md:rounded-[2rem] border border-line bg-surface p-2 md:p-3 shadow-sm hover:shadow-lg hover:shadow-venom/5 hover:border-venom/30 hover:-translate-y-1 transition-all duration-300">
+                    <a href="{{ route('shop.show', $product->id) }}" class="block">
+                        <div class="aspect-[3/4] w-full rounded-xl md:rounded-[1.5rem] overflow-hidden bg-surface-2 relative">
+                            @if($product->is_new)
+                                <span class="absolute top-2 left-2 md:top-3 md:left-3 bg-venom text-ink text-[9px] md:text-[10px] font-black px-2.5 py-1 md:px-3 md:py-1.5 uppercase rounded-full z-10">
+                                    Nuevo
+                                </span>
+                            @endif
 
-                    <div class="aspect-[3/4] w-full rounded-xl md:rounded-[1.5rem] overflow-hidden bg-surface-2 relative">
-                        @if($product->is_new)
-                            <span class="absolute top-2 left-2 md:top-3 md:left-3 bg-venom text-ink text-[9px] md:text-[10px] font-black px-2.5 py-1 md:px-3 md:py-1.5 uppercase rounded-full z-10">
-                                Nuevo
-                            </span>
-                        @endif
+                            @if($product->images->first())
+                                <img src="{{ $product->images->first()->url }}"
+                                     alt="{{ $product->name }}"
+                                     loading="lazy"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center text-bone-dim">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                </div>
+                            @endif
+                        </div>
 
-                        @if($product->images->first())
-                            <img src="{{ $product->images->first()->url }}"
-                                 alt="{{ $product->name }}"
-                                 loading="lazy"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="px-1 md:px-2 pt-3 md:pt-4">
+                            <h3 class="text-xs md:text-sm font-bold uppercase tracking-[0.05em] md:tracking-[0.1em] text-bone group-hover:text-venom line-clamp-1">
+                                {{ $product->name }}
+                            </h3>
+                            <div class="mt-1 md:mt-2 flex items-center gap-1.5 md:gap-2 flex-wrap">
+                                <span class="text-xs md:text-sm font-black text-bone">
+                                    ${{ number_format($product->base_price, 2) }}
+                                </span>
+                                @if($product->old_price)
+                                    <span class="text-[10px] md:text-xs text-bone-dim line-through">
+                                        ${{ number_format($product->old_price, 2) }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="mt-3 space-y-2">
+                        @if($defaultVariant && $defaultVariant->stock > 0)
+                            <form action="{{ route('cart.add') }}" method="POST" class="space-y-2">
+                                @csrf
+                                <input type="hidden" name="variant_id" value="{{ $defaultVariant->id }}">
+                                <input type="hidden" name="qty" value="1">
+                                <button type="submit" class="w-full rounded-full bg-venom px-3 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-ink transition hover:brightness-110">
+                                    Agregar al carrito
+                                </button>
+                                <button type="submit" name="checkout" value="1" class="w-full rounded-full border border-venom/40 bg-surface-2 px-3 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-venom transition hover:bg-venom hover:text-ink">
+                                    Comprar ahora
+                                </button>
+                            </form>
                         @else
-                            <div class="w-full h-full flex items-center justify-center text-bone-dim">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <div class="w-full rounded-full border border-line bg-surface-2 px-3 py-2 text-center text-[10px] font-black uppercase tracking-[0.18em] text-bone-dim">
+                                Sin stock
                             </div>
                         @endif
                     </div>
-
-                    <div class="px-1 md:px-2 pt-3 md:pt-4">
-                        <h3 class="text-xs md:text-sm font-bold uppercase tracking-[0.05em] md:tracking-[0.1em] text-bone group-hover:text-venom line-clamp-1">
-                            {{ $product->name }}
-                        </h3>
-                        <div class="mt-1 md:mt-2 flex items-center gap-1.5 md:gap-2 flex-wrap">
-                            <span class="text-xs md:text-sm font-black text-bone">
-                                ${{ number_format($product->base_price, 2) }}
-                            </span>
-                            @if($product->old_price)
-                                <span class="text-[10px] md:text-xs text-bone-dim line-through">
-                                    ${{ number_format($product->old_price, 2) }}
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-                </a>
+                </div>
                 @empty
                 <div class="col-span-full text-center text-bone-dim py-12 md:py-16 rounded-2xl md:rounded-[2rem] border border-dashed border-line bg-surface">
                     <p class="text-sm md:text-base">No se encontraron productos.</p>
