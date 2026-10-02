@@ -93,6 +93,8 @@ class CustomerAuthController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
         } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Google login falló: ' . $e->getMessage(), ['exception' => $e]);
+
             return redirect()->route('customer.login')
                 ->withErrors(['email' => 'No se pudo iniciar sesión con Google. Intenta de nuevo.']);
         }

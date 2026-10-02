@@ -58,13 +58,23 @@
     </div>
 </div>
 
+<<<<<<< Updated upstream
 <div class="overflow-hidden rounded-2xl border border-[var(--c-line)] bg-[var(--c-surface)] shadow-sm">
     <div class="flex flex-col gap-3 border-b border-[var(--c-line)] p-6 sm:flex-row sm:items-center sm:justify-between">
+=======
+<!-- TABLA DE VARIANTES E INVENTARIO SKU -->
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+>>>>>>> Stashed changes
         <div>
             <h2 class="text-base font-semibold uppercase tracking-wider text-[var(--c-bone)]">Gestión de Variantes y SKUs</h2>
             <p class="text-xs text-[var(--c-bone-dim)]">Inventario directo por combinación de talla y color.</p>
         </div>
+<<<<<<< Updated upstream
         <a href="{{ route('admin.products.index') }}" class="inline-block rounded-lg bg-[var(--c-venom)] px-4 py-2 text-center text-xs font-semibold uppercase tracking-wider text-white transition hover:brightness-110">
+=======
+        <a href="{{ route('admin.products.index') }}" class="text-xs font-semibold uppercase tracking-wider bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
+>>>>>>> Stashed changes
             Gestionar productos
         </a>
     </div>

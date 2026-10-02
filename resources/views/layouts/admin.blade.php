@@ -23,6 +23,7 @@
 </head>
 <body class="min-h-screen bg-[var(--c-ink)] text-[var(--c-bone)] antialiased font-sans">
     <div class="flex min-h-screen">
+<<<<<<< Updated upstream
         <div id="sidebar_overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
 
         <aside id="sidebar"
@@ -53,6 +54,19 @@
                 <a href="{{ route('admin.orders.index') }}" class="flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition {{ request()->routeIs('admin.orders.*') ? 'bg-[var(--c-venom)]/10 text-[var(--c-venom)]' : 'text-[var(--c-bone-dim)] hover:bg-[var(--c-surface-2)] hover:text-[var(--c-bone)]' }}">
                     Pedidos
                 </a>
+=======
+        <!-- SIDEBAR -->
+        <aside class="w-60 bg-black text-white flex-shrink-0 flex flex-col">
+            <div class="h-16 flex items-center px-6 text-lg font-bold tracking-widest uppercase border-b border-white/10">
+                VESTIR
+                <span class="text-[10px] font-normal tracking-normal normal-case text-gray-400 ml-2">admin</span>
+            </div>
+            <nav class="flex-1 px-3 py-6 space-y-1 text-sm">
+                <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded-lg {{ request()->routeIs('admin.dashboard') ? 'bg-white text-black font-semibold' : 'text-gray-300 hover:bg-white/10' }}">Dashboard</a>
+                <a href="{{ route('admin.products.index') }}" class="block px-3 py-2 rounded-lg {{ request()->routeIs('admin.products.*') ? 'bg-white text-black font-semibold' : 'text-gray-300 hover:bg-white/10' }}">Productos</a>
+                <a href="{{ route('admin.categories.index') }}" class="block px-3 py-2 rounded-lg {{ request()->routeIs('admin.categories.*') ? 'bg-white text-black font-semibold' : 'text-gray-300 hover:bg-white/10' }}">Categorías</a>
+                <a href="{{ route('admin.orders.index') }}" class="block px-3 py-2 rounded-lg {{ request()->routeIs('admin.orders.*') ? 'bg-white text-black font-semibold' : 'text-gray-300 hover:bg-white/10' }}">Pedidos</a>
+>>>>>>> Stashed changes
             </nav>
 
             <div class="border-t border-[var(--c-line)] p-3 space-y-2">
@@ -69,6 +83,7 @@
             </div>
         </aside>
 
+<<<<<<< Updated upstream
         <div class="min-w-0 flex-1">
             <header class="sticky top-0 z-20 border-b border-[var(--c-line)] bg-[var(--c-surface)]/90 backdrop-blur-md">
                 <div class="flex h-16 items-center justify-between px-4 sm:px-6">
@@ -101,6 +116,11 @@
             </header>
 
             <main class="p-4 sm:p-6 lg:p-8">
+=======
+        <!-- CONTENIDO -->
+        <div class="flex-1 min-w-0">
+            <main class="p-8">
+>>>>>>> Stashed changes
                 @if (session('status'))
                     <div class="mb-6 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-600 dark:text-emerald-400">
                         {{ session('status') }}
@@ -121,6 +141,7 @@
             </main>
         </div>
     </div>
+<<<<<<< Updated upstream
 
     <script>
         (() => {
@@ -150,5 +171,7 @@
             });
         })();
     </script>
+=======
+>>>>>>> Stashed changes
 </body>
 </html>
